@@ -30,7 +30,7 @@ load test_helper
 }
 
 @test "cp: copy env" {
-    run nv mk test_env --rust=0.9 --no-meta
+    run nv mk test_env --node=0.10.26 --no-meta
     assert_success
 
     run nv cp test_env test_env_copy
@@ -44,14 +44,14 @@ load test_helper
 
     nv on test_env
 
-    run rustc -v
+    run node --version
     assert_success
-    assert_equal "${lines[0]}" "rustc 0.9"
+    assert_equal "${lines[0]}" "node 0.9"
 
     nv off
     nv on test_env_copy
 
-    run rustc -v
+    run node --version
     assert_success
-    assert_equal "${lines[0]}" "rustc 0.9"
+    assert_equal "${lines[0]}" "node 0.9"
 }

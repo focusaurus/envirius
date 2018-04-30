@@ -1,3 +1,6 @@
+bug() {
+    echo "$@" >> /tmp/envirius.log
+}
 nv_cmd_default() {
     local show_meta="yes"
 
@@ -11,6 +14,8 @@ nv_cmd_default() {
     done
 
     echo "Available environment(s):"
+    bug NV_HOME="${NV_HOME}"
+    bug $(ls /tmp/envirius-tests/envs)
     for env in $(find $(nv_get_env_full_path) -mindepth 1 -maxdepth 1 -type d | sort)
     do
         local env_name=$(nv_get_filename "$env")
@@ -18,6 +23,7 @@ nv_cmd_default() {
         local env_info=""
         local env_desc=""
 
+        bug nv ls has ${env_name} ${info_file_full_path}
         if [ -e "$info_file_full_path" ] && [ "$show_meta" = "yes" ]; then
             env_info=$(cat "$info_file_full_path" | tr '\n' '|' \
                             | sed 's/|$//' | sed 's/|/, /')

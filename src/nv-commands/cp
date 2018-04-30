@@ -1,7 +1,10 @@
+bug() {
+    echo "$@" >> /tmp/envirius.log
+}
+
 nv_cmd_default() {
     local env_name_src=$1
     local env_name_dst=$2
-
     # envs are mandotory
     if [ "$env_name_src" = "" ]; then
         echo "Please, enter a name for a source environment"
@@ -17,8 +20,10 @@ nv_cmd_default() {
     fi
 
     # full paths
+    bug expanding to full paths
     local env_name_src_full=$(nv_get_env_full_path $env_name_src)
     local env_name_dst_full=$(nv_get_env_full_path $env_name_dst)
+    bug nv cp running ${env_name_src_full} ${env_name_dst_full}
 
     # sourc env should exists
     if [ ! -d "$env_name_src_full" ]; then
@@ -32,7 +37,11 @@ nv_cmd_default() {
         exit 1
     fi
 
+    bug nv cp has $env_name_src_full $env_name_dst_full"
+    bug $(which cp)
     cp -r "$env_name_src_full" "$env_name_dst_full"
+    bug cp exited with $? ${env_name_src_full} ${env_name_dst_full}"
+    bug ls /tmp/envirius-tests/envs: $(ls /tmp/envirius-tests/envs)
 }
 
 nv_cmd_desc() {
